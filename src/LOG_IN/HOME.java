@@ -92,11 +92,11 @@ public class HOME extends javax.swing.JFrame {
         jPanel26 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton27 = new javax.swing.JButton();
+        jButton28 = new javax.swing.JButton();
         jPanel27 = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
 
         ADD.setLocation(new java.awt.Point(500, 200));
-        ADD.setMaximumSize(new java.awt.Dimension(432, 300));
         ADD.setMinimumSize(new java.awt.Dimension(432, 300));
         ADD.setResizable(false);
 
@@ -290,6 +290,14 @@ public class HOME extends javax.swing.JFrame {
             }
         });
 
+        jButton28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton28.setText("-DELETE PRODUCT");
+        jButton28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton28ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
@@ -299,12 +307,15 @@ public class HOME extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jButton28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel26Layout.createSequentialGroup()
-                .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jButton1))
         );
 
@@ -415,6 +426,44 @@ public class HOME extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
+       int selRow = jTable1.getSelectedRow();
+        if (selRow != -1) {// meaning the row is valid      
+            int column = 0;  // the ID is located at the first column
+            String id = jTable1
+                    .getValueAt(selRow, column).toString();
+            int ans = JOptionPane.showConfirmDialog(jTable1,
+                    "Are you sure you want to delete this item?",
+                    "Delete Confirmation",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (ans == JOptionPane.YES_OPTION) {    // YES
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");// the connector
+                    String conURL = "jdbc:mysql://localhost/tenidodb?"
+                            + "user=root&password=";
+                    Connection con = DriverManager.getConnection(conURL);
+                    PreparedStatement pstmt = con.prepareStatement("DELETE FROM product WHERE ID = ? ");
+                    pstmt.setString(1, id);
+                    pstmt.executeUpdate();
+
+                   refresh();
+
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(HOME.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(HOME.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        } else { // meaning if the row is invalid ( -1 )
+            JOptionPane.showMessageDialog(null, "Please select item to be deleted",
+                    "No record selected",
+                    JOptionPane.WARNING_MESSAGE);
+
+        }           // TODO add your handling code here:
+    }//GEN-LAST:event_jButton28ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -457,6 +506,7 @@ public class HOME extends javax.swing.JFrame {
     private javax.swing.JSpinner PRODUCTQ;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton27;
+    private javax.swing.JButton jButton28;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
