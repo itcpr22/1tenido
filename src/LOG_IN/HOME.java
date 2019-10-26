@@ -130,6 +130,7 @@ final void search(String keyword){
         jButton27 = new javax.swing.JButton();
         jButton28 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jPanel27 = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
@@ -381,6 +382,14 @@ final void search(String keyword){
             }
         });
 
+        jButton4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton4.setText("Add Quantity");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
@@ -392,6 +401,7 @@ final void search(String keyword){
                 .addContainerGap())
             .addComponent(jButton28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,7 +411,9 @@ final void search(String keyword){
                 .addComponent(jButton28)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jButton1))
         );
 
@@ -633,6 +645,35 @@ final void search(String keyword){
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        if(row != -1){
+            ADD.setVisible(true);
+            ADD.setLocationRelativeTo(this);
+            ADD.setAlwaysOnTop(true);
+            save_btn.setVisible(false);
+            ABTN.setVisible(false);
+            addqty_btn.setVisible(true);
+
+            id = jTable1.getValueAt(row, 0);
+            Object pn = jTable1.getValueAt(row, 1);
+            Object qty = jTable1.getValueAt(row, 2);
+            Object pr = jTable1.getValueAt(row, 3);
+
+            PRODUCTN.setEnabled(false);
+            PRODUCTP.setEnabled(false);
+            PRODUCTQ.setEnabled(true);
+
+            PRODUCTN.setText(pn.toString());
+            xst_qty.setText(qty.toString());
+            PRODUCTP.setValue(Double.valueOf(pr.toString()));
+            PRODUCTQ.setValue(0);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Please Select a product", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -679,6 +720,7 @@ final void search(String keyword){
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton27;
     private javax.swing.JButton jButton28;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
