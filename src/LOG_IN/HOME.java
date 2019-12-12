@@ -184,11 +184,12 @@ final void search(String keyword){
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ABTN)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(save_btn)
-                        .addComponent(addqty_btn)))
+                        .addComponent(addqty_btn))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ABTN)))
                 .addContainerGap())
         );
 
@@ -605,29 +606,10 @@ final void search(String keyword){
     }//GEN-LAST:event_save_btnActionPerformed
 
     private void addqty_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addqty_btnActionPerformed
-         String saqid = aqid.getText();
-        int saqquantity = (int) PRODUCTQ.getValue();
-       
-        if (saqquantity<1) {
-            JOptionPane.showMessageDialog(ADD, "Please Add Quantity atleast one!", "", JOptionPane.WARNING_MESSAGE);
-            ADD.requestFocusInWindow();
-        } else {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                com.mysql.jdbc.Connection connect = (com.mysql.jdbc.Connection) DriverManager.getConnection(con.url, con.username, con.password);
-
-                PreparedStatement pstmt = connect.prepareStatement("update product set quantity = quantity + ? where id=? ");
-                 pstmt.setFloat(1, saqquantity);
-                pstmt.setString(2, saqid);
-             
-                pstmt.executeUpdate();
-                JOptionPane.showMessageDialog(ADD, "You Added Quantity " + saqquantity);
-                ADD.setVisible(false);     
-               refresh();
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(HOME.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+      String pn = PRODUCTN.getText();
+        int a = new product().product_addQty(Integer.parseInt(id.toString()), PRODUCTQ.getValue());
+        refresh() ;
+        ADD.setVisible(false);
 
     }//GEN-LAST:event_addqty_btnActionPerformed
 
@@ -642,7 +624,30 @@ final void search(String keyword){
     }//GEN-LAST:event_search_tfKeyReleased
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        int table_row = jTable1.getSelectedRow();
+        this.enableAddProductFields();
+
+        if(table_row != -1){
+            id = jTable1.getValueAt(table_row, 0);
+            Object product_name = jTable1.getValueAt(table_row, 1);
+            Object pro_qty = jTable1.getValueAt(table_row, 2);
+            Object pro_price = jTable1.getValueAt(table_row, 3);
+
+            PRODUCTN.setText((String) product_name);
+            PRODUCTQ.setValue(Integer.valueOf((String) pro_qty));
+            PRODUCTP.setValue(Double.valueOf((String) pro_price));
+
+            ADD.setVisible(true);
+            ADD.setLocationRelativeTo(rootPane);
+            ADD.setAlwaysOnTop(true);
+            save_btn.setVisible(true);
+            ABTN.setVisible(false);
+            addqty_btn.setVisible(false);
+
+            PRODUCTQ.setEnabled(false);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Please Select a product", "Warning", JOptionPane.WARNING_MESSAGE);
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

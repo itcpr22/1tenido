@@ -93,5 +93,23 @@ public class product {
         }
         return r;
     }
+        public int product_addQty(int id, Object quantity){int y = 0;
+        try{
+    String sql = "update product set quantity = quantity+ ? where id=?;";
+    Class.forName("com.mysql.jdbc.Driver");
+    java.sql.Connection conn = (java.sql.Connection)DriverManager.getConnection("jdbc:mysql://localhost/tenidodb?", "root", "");
+    java.sql.PreparedStatement pstmt = conn.prepareStatement(sql);
+    
+    pstmt.setString(1, quantity.toString());
+    pstmt.setInt(2, id);
+    y=pstmt.executeUpdate();
+    
+    
+}       catch (ClassNotFoundException ex) {
+            Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+        }return y; 
+    }  
 }
 
